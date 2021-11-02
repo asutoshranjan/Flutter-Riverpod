@@ -1,4 +1,4 @@
-// ignore_for_file: use_key_in_widget_constructors
+// ignore_for_file: use_key_in_widget_constructors, prefer_const_constructors
 
 import 'package:flutter/material.dart';
 import 'package:flutter_riverpod/flutter_riverpod.dart';
@@ -17,9 +17,14 @@ void main() {
 
 final greetingProvider = Provider((ref) => 'Hello Riverpod!');
 
-class MyApp extends StatelessWidget {
+// have to change from state less widget to consumer widget (extra scoped reader parameter)
+
+class MyApp extends ConsumerWidget {
   @override
-  Widget build(BuildContext context) {
+  Widget build(BuildContext context, ScopedReader watch) {
+
+    final greeting = watch(greetingProvider);
+
     return MaterialApp(
       debugShowCheckedModeBanner: false,
       title: 'Riverpod',
@@ -32,7 +37,9 @@ class MyApp extends StatelessWidget {
           centerTitle: true,
         ),
 
-        body: Container(),
+        body: Center(
+          child: Text('$greeting how are you?'),
+        ),
 
       ),
 
